@@ -11,11 +11,8 @@ from io import BytesIO
 from PIL import Image
 
 
-
+#used to hold all posts
 images=[]
-root = tk.Tk()
-root.withdraw()
-
 #Class used to put art peices in different classes depending on their price. Just compare given price to 3 different values and
 # then returns class.
 def class_cal(price):
@@ -82,6 +79,7 @@ def write_db(title, path, tags, price, classtype):
         writer = csv.writer(csvfile)
         writer.writerow([title, path, ("".join(''.join(tags).split())), price, classtype])
 
+#converts the tag section of each post from the CSV file to an array, as commas do work too well with CSV file
 def tags_to_list():
     for i in images:
         #images[i][2]=', '.join(images[i][2]).split()
@@ -93,6 +91,7 @@ def tags_to_list():
         i[2]=x
    # print(images)
 
+#opens up the CSV file to be read
 def read_file():
     with open('database.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
@@ -102,6 +101,7 @@ def read_file():
             images.append(le)
     tags_to_list()
 
+   #SHows a list of all post to veiw so user can pick one to veiw in more depth
 def show():
     print()
     for i in range(len(images)):
@@ -109,12 +109,14 @@ def show():
     print()
     search_title()
 
+ #code that webscapes off wikipedia for a definition of each tag used to show the user
 def wiki_search(title):
     print()
     print('Wikipedia Definition of Tag:')
     print(wikipedia.WikipediaPage(title).summary)
     print()
 
+    #used to search through each tag on each post to compare to the. one the user is searching for if found it will display info on each images
 def search_tag():
     choice = input("Which post do you want to view (tag)? ")
     wiki_search(choice)
@@ -137,6 +139,7 @@ def search_tag():
             num_choice = input("type the number assigned to the post you  wish  to see? ")
             print(tag_list[int(num_choice)])
 
+            #seaches through each posts title to see if it matches the search term the user set
 def search_title():
     choice = input("Which post do you want to view (title)? ")
     found_image=0
@@ -154,7 +157,7 @@ def search_title():
         print("SHOWING...")
         img = Image.open(images[found_image][1])
         img.show()
-
+#filters out rude words from a list that the user tries to add into their tags
 def word_filter(UserWords):
     def ReadWords():
         rudewords = []
@@ -172,14 +175,14 @@ def word_filter(UserWords):
             UserWords = UserWords.replace(i, '*' * len(i))
 
     return UserWords
-
+#what is show on the start up of the app, also initiated read from file to get all stored posts
 def init():
     read_file()
     print("Hi. Welcome to the SMARTIST terminal application!")
     main()
 
 def main():
-
+#displays all options the user can choice from
     print("SHOW         -Show all art pieces")
     print("ADD          -Upload an art piece")
     print("SEARCHTAG    -Searches art looking for tags")
