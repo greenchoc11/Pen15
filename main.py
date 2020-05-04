@@ -100,6 +100,10 @@ def read_file():
             li = list(' '.join(row).split(" "))
             le=li[0].split(",")
             images.append(le)
+    if(len(images)==0):
+        print("Please add a post before you complete anything else")
+        print("Please select the file you wish to post")
+        upload()
     tags_to_list()
 
    #SHows a list of all post to veiw so user can pick one to veiw in more depth
