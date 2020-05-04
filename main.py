@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from PIL import Image
 from io import BytesIO
 from PIL import Image
+import warnings
 
 
 #used to hold all posts
@@ -112,8 +113,15 @@ def show():
  #code that webscapes off wikipedia for a definition of each tag used to show the user
 def wiki_search(title):
     print()
-    print('Wikipedia Definition of Tag:')
-    print(wikipedia.WikipediaPage(title).summary)
+    warnings.filterwarnings("ignore")
+    try:
+        page = wikipedia.page(title)
+        print(page.summary)
+    except:
+        topics = wikipedia.search(title)
+        choice = 1
+        assert choice in range(len(topics))
+        print(wikipedia.summary(topics[choice]))
     print()
 
     #used to search through each tag on each post to compare to the. one the user is searching for if found it will display info on each images
@@ -137,7 +145,8 @@ def search_tag():
                 print(i, tag_list[i])
                 print()
             num_choice = input("type the number assigned to the post you  wish  to see? ")
-            print(tag_list[int(num_choice)])
+            img = Image.open(images[int(num_choice)][1])
+            img.show()
 
             #seaches through each posts title to see if it matches the search term the user set
 def search_title():
