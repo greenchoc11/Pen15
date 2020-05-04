@@ -1,18 +1,15 @@
 import wikipedia
-import requests
-import shutil
-from bs4 import BeautifulSoup
-from PIL import Image 
-from io import BytesIO
+import warnings
 
+warnings.filterwarnings("ignore")
 title = input("What do you want to look up?: ")
-print(wikipedia.WikipediaPage(title).summary)
+try:
+    page = wikipedia.page(title)
+    print(page.summary)
+except:
+    topics = wikipedia.search(title)
+    choice = 1
+    assert choice in range(len(topics))
+    print(wikipedia.summary(topics[choice]))
 
-my_url = (wikipedia.page(title).images[0])
-response = requests.get(my_url, stream=True)
-with open('my_image.png', 'wb') as file:
-    shutil.copyfileobj(response.raw, file)
-del response
 
-img = Image.open('my_image.png')
-img.show()
