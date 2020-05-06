@@ -10,6 +10,7 @@ from PIL import Image
 from io import BytesIO
 from PIL import Image
 import warnings
+import webbrowser
 
 
 #used to hold all posts
@@ -41,7 +42,7 @@ class Post:
 #asks user to input tags they want to relate to the image
 def assign_tags():
     #store a list properly in CVS files
-    tags = input("What hashtags would you like? ")
+    tags = input("What hashtags would you like? ").lower()
     aligned_tags=re.findall(r"#(\w+)", tags)
     for i in range(len(aligned_tags)):
       aligned_tags[i]=word_filter(aligned_tags[i])
@@ -53,7 +54,7 @@ def upload():
 #assign the path the users choses[1] and then the tags they chose[2]
     Path=filedialog.askopenfilename()
     Title=input("What the title? ")
-    Price=input("What the price? ")
+    Price=input("What the price as a whole number ? £ ")
 
     p1 = Post(Title, Path, assign_tags(), Price)
     images.append([p1.title, p1.path, p1.tags])
@@ -164,12 +165,35 @@ def search_title():
             print("Tags: ", images[i][2])
             print("Price: ", images[i][3])
             print("Class: ", images[i][4])
-    choice = input("Do you wish to open the image? ")
+    choice = input("Do you wish to open the image? ").lower()
+    choice2= input("Do you wish to view in mark up language HTML ?").lower()
 
     if (choice == 'yes'):
         print("SHOWING...")
         img = Image.open(images[found_image][1])
         img.show()
+
+    if (choice2== "yes"): # s1e of higher mark up language, machine readable is where file saved as csv
+        import tempfile
+        import webbrowser
+        HTML = """
+        <html>
+        <style>
+		body {background-color: powderblue;}
+		p    {color: green;}
+		</style>
+		<p>Your is ...... 
+
+        		Title: %s
+        		</p>
+
+        </html>
+        """
+        with tempfile.NamedTemporaryFile('w', delete=False, suffix='.html') as x: # creates temp file
+            link = 'file://' + x.name #location of temp file
+            x.write(HTML % (images[i][0])) #writes temp file, then passes title
+        webbrowser.open(link) #default browser opened , and displayed.
+
 #filters out rude words from a list that the user tries to add into their tags
 def word_filter(UserWords):
     def ReadWords():
@@ -202,7 +226,7 @@ def main():
     print("SEARCHTITLE  -Searches art looking for title")
 
 
-    choice = input("What would you like to do? ")
+    choice = input("What would you like to do? ").upper()
 
     if(choice == 'SHOW'):
         show()
