@@ -194,7 +194,7 @@ def search_title():
 		body {background-color: powderblue;}
 		p    {color: green;}
 		</style>
-		<p>Your is ...... 
+		<p>Your title is ...... 
 
         		Title: %s
         		</p>
