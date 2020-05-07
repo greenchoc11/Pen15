@@ -115,7 +115,7 @@ def read_file():
             images.append(le)
     if(len(images)==0):
         print("Please add a post before you complete anything else")
-        print("Please select the file you wish to post")
+        print("Please select the picture you wish to post")
         upload()
     tags_to_list()
 
