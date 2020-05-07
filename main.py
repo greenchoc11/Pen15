@@ -52,11 +52,13 @@ class Post:
 #asks user to input tags they want to relate to the image
 def assign_tags():
     #store a list properly in CVS files
-    tags = input("What hashtags would you like? Tags are only accounted for when # is used at the start").lower()
+    tags = input("What hashtags would you like? Please ensure you put a # in front of each word other wise it wont be counted").lower()
     aligned_tags=re.findall(r"#(\w+)", tags)
+    if tags =="":
+        return " / "
     for i in range(len(aligned_tags)):
       aligned_tags[i]=word_filter(aligned_tags[i])
-    return '/'.join(aligned_tags)
+    return '/'.join(aligned_tags) + "/"
 
 #Asks for the path to the image, then the  title and price of it
 #pushes file to the CSV file/datavbase
