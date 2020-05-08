@@ -132,13 +132,16 @@ def wiki_search(title):
     print()
     warnings.filterwarnings("ignore")
     try:
-        page = wikipedia.page(title)
-        print(page.summary)
+    	page = wikipedia.page(title, auto_suggest=False)
+    	print(page.summary)
     except:
-        topics = wikipedia.search(title)
-        choice = 1
-        assert choice in range(len(topics))
-        print(wikipedia.summary(topics[choice]))
+    	topics = wikipedia.search(title)
+    	print("May refer to: ")
+    	for i, topic in enumerate(topics):
+    		print(i, topic)
+    	choice = int(input("Enter a choice: "))
+    	assert choice in range(len(topics))
+    	print(wikipedia.summary(topics[choice]))
     print()
 
     #used to search through each tag on each post to compare to the. one the user is searching for if found it will display info on each images
