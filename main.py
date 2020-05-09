@@ -52,7 +52,7 @@ class Post:
 #asks user to input tags they want to relate to the image
 def assign_tags():
     #store a list properly in CVS files
-    tags = input("What hashtags would you like? Please ensure you put a # in front of each word other wise it wont be counted").lower()
+    tags = input("What hashtags would you like? Please ensure you put a # in front of each word other wise it wont be counted  ").lower()
     aligned_tags=re.findall(r"#(\w+)", tags)
     if tags =="":
         return " / "
